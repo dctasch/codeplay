@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+	<head>
+	<title>CSV Builder</title>
+	<!--This script will create a CSV file with named columns and data in the rows below the corresponding column.-->
+	<script language="javascript">
+		function WriteToFile(passForm) {
+			var fso = new ActiveXObject("Scripting.FileSystemObject");
+			var fileLoc = "C:\\temp\\vis1234.xml";
+			var file = fso.CreateTextFile(fileLoc, true);
+			file.writeline(passForm.machine.name + ',' + 
+							passForm.channel.name + ',' + 
+							passForm.filesvr.name + ',' + 
+							passForm.upsyorn.name + ',' + 
+							passForm.nasyorn.name + ',' + 
+							passForm.nasip.name + ',' + 
+							passForm.sensoryorn.name + ',' + 
+							passForm.rawyorn.name);
+			file.writeline(passForm.machine.value + ',' +
+							passForm.channel.value + ',' +
+							passForm.filesvr.value + ',' +
+							passForm.upsyorn.value + ',' +
+							passForm.nasyorn.value + ',' +
+							passForm.nasip.value + ',' +
+							passForm.sensoryorn.value + ',' +
+							passForm.rawyorn.value);
+			file.Close();
+			alert('File created successfully at location: ' + fileLoc);
+		}
+	</script>
+	<style>
+        form {
+    /* Just to center the form on the page */
+    margin: 0 auto;
+    width: 400px;
+    /* To see the outline of the form */
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
+    background-color: rgb(165, 155, 228)
+    }
+
+    form div + div {
+    margin-top: 1em;
+    }
+
+    label {
+    /* To make sure that all labels have the same size and are properly aligned */
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+    }
+
+    input, textarea {
+    /* To make sure that all text fields have the same font settings
+    By default, textareas have a monospace font */
+    font: 1em sans-serif;
+
+    /* To give the same size to all text fields */
+    width: 80px;
+    box-sizing: border-box;
+
+    /* To harmonize the look & feel of text field border */
+    border: 1px solid #999;
+    }
+
+    input:focus, textarea:focus {
+    /* To give a little highlight on active elements */
+    border-color: #000;
+    }
+
+    textarea {
+    /* To properly align multiline text fields with their labels */
+    vertical-align: top;
+
+    /* To give enough room to type some text */
+    height: 5em;
+    }
+
+    .input {
+    /* To position the buttons to the same position of the text fields */
+    padding-left: 90px; /* same size as the label elements */
+    }
+
+    input {
+    /* This extra margin represent roughly the same space as the space
+    between the labels and their text fields */
+    margin-left: .5em;
+    }
+    </style>
+	</head>
+	<body> 
+		
+		<form> 
+			<fieldset align="left" />
+			<legend>Visual Build Input Form</legend>
+			<p><i>To be completed by the Program Manager</i><ul>Use IE Only!</ul></p>
+			<button onclick="WriteToFile(this.form)">Export HTML Table To xml File</button>
+			<table>
+				<tr><th>machine:</th>
+					<td>Vis Number:</td>
+					<td><input type="text" name="machine" size="6" maxlength="5"/></td>
+				</tr>
+				<tr><th>channel:</th>
+					<td>CP Count:</td>
+					<td><input type="text" name="channel" size="4" maxlength="2" /></td>
+				</tr>
+				<tr><th>filesvr:</th>
+					<td>File Server <b>Y</b>es or <b>N</b>o:</td>
+					<td><input type="text" name="filesvr" size="4" maxlength="1" /></td>
+				</tr>
+				<tr><th>upsyorn:</th>
+					<td>UPS Present <b>Y</b>es or <b>N</b>o:</td>
+					<td><input type="text" name="upsyorn" size="4" maxlength="1" /></td>
+				</tr>
+				<tr><th>nasyorn:</th>
+					<td>NAS Present <b>Y</b>es or <b>N</b>o:</td>
+					<td><input type="text" name="nasyorn" size="4" maxlength="1" /></td>
+				</tr>
+				<tr><th>nasip:</th>
+					<td>NAS IP:</td>
+					<td><input type="text" name="nasip" size="4" maxlength="3" /></td>
+				</tr>
+				<tr><th>sensoryorn:</th>
+					<td>Sensor Present <b>Y</b>es or <b>N</b>o:</td>
+					<td><input type="text" name="sensoryorn" size="4" maxlength="1" /></td>
+				</tr>
+				<tr><th>rawyorn:</th>
+					 <td>Raw Device <b>Y</b>es or <b>N</b>o:</td>
+					 <td><input type="text" name="rawyorn" size="4" maxlength="1" /></td>
+				</tr>
+				
+			</table>
+	</form>
+	</body>
+</html>
