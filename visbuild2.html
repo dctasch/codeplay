@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Display Visual File Details</title>
+
+    <script type="text/javascript" language="javascript">
+
+    var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+        var fso = new ActiveXObject("Scripting.FileSystemObject");	
+        var FILENAME='C:\\temp\\example.xml';
+
+
+
+function SaveXMLData()
+{
+     validations();
+}
+
+
+function createfile()
+{
+
+    var file;
+
+        var m1=document.getElementById('machine').value;
+        var c1=document.getElementById('channel').value;
+        var u1=document.getElementById('upsyorn').value;
+        var f1=document.getElementById('filesvr').value;
+        var n1=document.getElementById('nasyorn').value;
+        var n2=document.getElementById('nasip').value;
+        var s1=document.getElementById('sensoryorn').value;
+        var r1=document.getElementById('rawyorn').value;
+        
+        var tablemain = document.getElementById('tblmain');
+
+    if(fso.fileExists(FILENAME))
+        {
+        xmlDoc.load(FILENAME);
+            var lng;
+            lng=xmlDoc.getElementsByTagName("Details");
+
+            var xmlread= fso.OpenTextFile(FILENAME,1,true,0);
+
+            var x=xmlread.readAll();
+            var replace=x.replace('</VISUAL>','');
+            var sno=lng.length + 1;
+            file=fso.OpenTextFile(FILENAME,2,true);
+
+            file.writeLine(replace);
+
+            file.WriteLine('<Details category="'+sno+'">');
+            file.WriteLine('<SNo>'+sno+'</SNo>');
+            file.writeline('<machine>'+m1+'</machine>'); 
+            file.writeline('<channel>'+c1+'</channel>'); 
+			file.writeline('<upsyorn>'+u1+'</upsyorn>'); 
+			file.writeline('<filesvr>'+f1+'</filesvr>'); 
+			file.writeline('<nasyorn>'+n1+'</nasyorn>');
+			file.writeline('<nasip>'+n2+'</nasip>'); 
+			file.writeline('<sensoryorn>'+s1+'</sensoryorn>'); 
+			file.writeline('<rawyorn>'+r1+'</rawyorn>');
+            
+            file.WriteLine('</Details>'); 
+            file.WriteLine('</VISUAL>');
+            
+        alert('another file updated');
+        }
+        else
+        {
+
+            file= fso.CreateTextFile(FILENAME, true);
+            file.WriteLine('<?xml version="1.0" encoding="utf-8" ?>');
+            file.WriteLine('<?xml-stylesheet type="text/xsl" href="cdcatalog.xsl"?>');
+            file.WriteLine('<VISUAL>');
+            file.WriteLine('<Details category="1">');
+            file.WriteLine('<SNo>'+1+'</SNo>');
+            file.writeline('<machine>'+m1+'</machine>'); 
+            file.writeline('<channel>'+c1+'</channel>'); 
+			file.writeline('<upsyorn>'+u1+'</upsyorn>'); 
+			file.writeline('<filesvr>'+f1+'</filesvr>'); 
+			file.writeline('<nasyorn>'+n1+'</nasyorn>');
+			file.writeline('<nasip>'+n2+'</nasip>'); 
+			file.writeline('<sensoryorn>'+s1+'</sensoryorn>'); 
+			file.writeline('<rawyorn>'+r1+'</rawyorn>');
+            
+            file.WriteLine('</Details>');
+            file.WriteLine('</VISUAL>');     
+
+        alert('file updated');
+        }
+
+    <!-- displayData();-->
+
+            document.getElementById('machine').value='';
+            document.getElementById('channel').value='';
+            document.getElementById('upsyorn').value='';
+            document.getElementById('filesvr').value='';
+            document.getElementById('nasyorn').value='';
+            document.getElementById('nasip').value='';
+            document.getElementById('sensoryorn').value='';
+            document.getElementById('rawyorn').value='';
+
+    file.close();
+}
+
+     
+ function validations() 
+{
+    var svr=document.getElementById('filesvr').value; 
+        var letters = /^[\s A-Za-z]+$/; 
+        if(svr!="")
+        {
+            if(svr.match(letters)) 
+              {
+                allnumeric();
+              }
+              else 
+            {
+                  alert('Please input alpha characters only'); 
+                  return false; 
+              }
+        }
+    else
+    {
+          alert('Please Enter Y or N.');
+     }
+}
+
+<!--For checking machine number-->
+
+function allnumeric() 
+{
+    var numbers=/^\d{4}$/;
+        var machine=document.getElementById("machine");
+    if(machine.value!="")
+    {
+        if(machine.value.length=="4")
+        {
+                if(machine.value.match(numbers))
+                {
+                       createfile();
+                }
+                else
+            {
+                    alert("Number should be numeric");
+                    return(false);
+            }
+        }
+        else
+        {
+            alert('Number should be like: 1776');
+        }
+    }
+    else
+    {
+        alert('Please Enter Vis Number.');
+    }
+} 
+
+   </script> 
+<style>
+    form {
+/* Just to center the form on the page */
+margin: 0 auto;
+width: 450px;
+/* To see the outline of the form */
+padding: 1em;
+border: 1px solid #CCC;
+border-radius: 1em;
+background-color: rgb(165, 155, 228)
+}
+
+form div + div {
+margin-top: 1em;
+}
+
+label {
+/* To make sure that all labels have the same size and are properly aligned */
+display: inline-block;
+width: 90px;
+text-align: right;
+}
+
+input, textarea {
+/* To make sure that all text fields have the same font settings
+By default, textareas have a monospace font */
+font: 1em sans-serif;
+
+/* To give the same size to all text fields */
+width: 80px;
+box-sizing: border-box;
+
+/* To harmonize the look & feel of text field border */
+border: 1px solid #999;
+}
+
+input:focus, textarea:focus {
+/* To give a little highlight on active elements */
+border-color: #000;
+}
+
+textarea {
+/* To properly align multiline text fields with their labels */
+vertical-align: top;
+
+/* To give enough room to type some text */
+height: 5em;
+}
+
+.input {
+/* To position the buttons to the same position of the text fields */
+padding-left: 90px; /* same size as the label elements */
+}
+
+input {
+/* This extra margin represent roughly the same space as the space
+between the labels and their text fields */
+margin-left: .5em;
+}
+</style>
+</head>
+
+<body onload="addRow('tbl')">
+
+    <form id="visgenForm" action="" method="get">
+
+        <p><b>VIS build Generator:</b></p>
+
+        <table>
+            <tr>
+                <td>Vis Number:</td>
+                <td><input type="text" id="machine" size="6" maxlength="5"/></td>
+            </tr>
+            <tr>
+                <td>CP Count:</td>
+                <td><input type="text" id="channel" size="4" maxlength="2" /></td>
+            </tr>
+            <tr>
+                <td>NAS IP:</td>
+                <td><input type="text" id="nasip" size="4" maxlength="3" /></td>
+            </tr>
+            <tr>
+                <td>File Server <b>Y</b>es or <b>N</b>o:</td>
+                <td><input type="text" id="filesvr" size="4" maxlength="1" /></td>
+            </tr>
+            <tr>
+                <td>UPS Present <b>Y</b>es or <b>N</b>o:</td>
+                <td><input type="text" id="upsyorn" size="4" maxlength="1" /></td>
+            </tr>
+            <tr>
+                <td>NAS Present <b>Y</b>es or <b>N</b>o:</td>
+                <td><input type="text" id="nasyorn" size="4" maxlength="1" /></td>
+            </tr>
+            <tr>
+                <td>Sensor Present <b>Y</b>es or <b>N</b>o:</td>
+                <td><input type="text" id="sensoryorn" size="4" maxlength="1" /></td>
+            </tr>
+            <tr>
+                 <td>Raw Device <b>Y</b>es or <b>N</b>o:</td>
+                 <td><input type="text" id="rawyorn" size="4" maxlength="1" /></td>
+            </tr>
+            <tr>
+                <td align="center">
+            <input type="button" value="Submit" onclick="SaveXMLData()"/></td>
+                <td>
+            <input type="button" value="Show Data" id="show" onclick="displayData(this.id)" style="display:none;"/></td>
+            </tr>
+        </table>
+    
+</form>
+</body>
+</html>
